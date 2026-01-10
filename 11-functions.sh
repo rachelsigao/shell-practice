@@ -37,7 +37,6 @@ then
     echo "python3 is not installed... going to install"
     dnf install python3 -y
     VALIDATE $? "python3"
-    fi
 else
     echo "python3 is already installed"
 fi
