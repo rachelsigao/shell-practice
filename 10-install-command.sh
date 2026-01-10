@@ -12,10 +12,28 @@ fi
 
 dnf install mysql -y
 
-if [ $? -eq 0 ]
+if [ $? -ne 0 ]
 then 
-    echo "Installing MySQL is SUCCESS"
-else 
-    echo "Installing MySQL is FAILURE"
-    exit 1
-    fi
+    echo "MySQL is not installed... going to install"
+    # dnf install mysql -y
+
+# if [ $? -eq 0 ]
+# then 
+#     echo "Installing MySQL is SUCCESS"
+# else 
+#     echo "Installing MySQL is FAILURE"
+#     exit 1
+#     fi
+else
+    echo "MySQL is already installed"
+fi
+
+# dnf install mysql -y
+
+# if [ $? -eq 0 ]
+# then 
+#     echo "Installing MySQL is SUCCESS"
+# else 
+#     echo "Installing MySQL is FAILURE"
+#     exit 1
+#     fi
