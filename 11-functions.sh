@@ -10,6 +10,7 @@ else
     echo "You are running with root access, Script is being installed"
 fi
 
+#Validate function takes input as exit status, what command they tried to install
 VALIDATE ()
     {
     if [ $1 -eq 0 ]
