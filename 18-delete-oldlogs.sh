@@ -42,7 +42,6 @@ while IFS= read -r filepath
 do 
     echo "Deleting old log files: $filepath" | tee -a $LOG_FILE
     rm -rf $filepath
-    <<< $FILES_TO_DELETE
-done
+done <<< $FILES_TO_DELETE
 
 echo "Script executed successfully" | tee -a $LOG_FILE
