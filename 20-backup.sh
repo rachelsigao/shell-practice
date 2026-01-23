@@ -31,10 +31,10 @@ VALIDATE ()
 check_root() {
     if [ $USERID -ne 0 ]
     then
-        echo -e "$R ERROR: $N Please run this script with root access" | tee -a $LOG_FILE
+        echo -e "$R ERROR: $N Please run this script with root access" 
         exit 1 #give other than 0 upto 127
     else
-        echo "You are running with root access, Script is being installed" | tee -a $LOG_FILE
+        echo "You are running with root access, Script is being installed" 
     fi
 } 
 
@@ -43,6 +43,7 @@ mkdir -p $LOGS_FOLDER
 #function to display command usage
 USAGE() {
     echo -e "$R USAGE: $N sh 20-backup.sh <source-dir> <destination-dir> <days(optional)>"
+    exit 1
 }
 
 #to check if there are sufficient arguments to run the command
@@ -54,7 +55,7 @@ fi
 #check if source directory exists
 if [ ! -d $SOURCE_DIR ]
 then
-    echo -e "$R Source Directory $SOURCE_DIR does not exist, Please check $N" | tee -a $LOG_FILE
+    echo -e "$R Source Directory $SOURCE_DIR does not exist, Please check $N" 
     exit 1
 fi
 
@@ -70,7 +71,7 @@ FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS) #find files older than spe
 #zip only when there are files
 if [ ! -z "$FILES" ]
 then
-    echo "Files older than 14 days, ready to zip are: $FILES" | tee -a $LOG_FILE
+    echo "Log files older than 14 days to zip are: $FILES" | tee -a $LOG_FILE
     TIMESTAMP=$(date +%F-%H-%M-%S)
     ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip" #moving zip file to destination directory
     find $SOURCE_DIR -name "*.log" -mtime +$DAYS | zip -@ "$ZIP_FILE" #zipping the files and 
