@@ -54,7 +54,7 @@ fi
 #check if source directory exists
 if [ ! -d $SOURCE_DIR ]
 then
-    echo -e "$R $SOURCE_DIR does not exist, Please check $N" | tee -a $LOG_FILE
+    echo -e "$R Source Directory $SOURCE_DIR does not exist, Please check $N" | tee -a $LOG_FILE
     exit 1
 fi
 
