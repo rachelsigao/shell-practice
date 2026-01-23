@@ -64,3 +64,13 @@ then
     echo -e "$R $DEST_DIR does not exist, Please check $N" | tee -a $LOG_FILE
     exit 1
 fi
+
+FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS)
+
+#zip only when there are files
+if [ ! -z $FILES ]
+then
+    echo "Files found older than $DAYS days in $SOURCE_DIR, proceeding to zip" | tee -a $LOG_FILE
+else
+    echo -e "No files older than $DAYS days found in $SOURCE_DIR $Y Skipping $N" | tee -a $LOG_FILE
+fi
