@@ -71,6 +71,9 @@ FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS)
 if [ ! -z $FILES ]
 then
     echo "Files older than $DAYS days and ready to zip are: $FILES" | tee -a $LOG_FILE
+    TIMESTAMP=$(date +%F-%H-%M-%S)
+    ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip"
+    echo $FILES \ zip -@ $ZIP_FILE | tee -a $LOG_FILE
 else
     echo -e "No files older than $DAYS days found in Source Directory $Y Skipping $N" | tee -a $LOG_FILE
 fi
