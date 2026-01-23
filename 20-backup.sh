@@ -40,11 +40,27 @@ check_root() {
 
 mkdir -p $LOGS_FOLDER
 
+#function to display command usage
 USAGE() {
     echo -e "$R USAGE: $N sh 20-backup.sh <source-dir> <destination-dir> <days(optional)>"
 }
 
+#to check if there are sufficient arguments to run the command
 if [ $# -lt 2 ] 
 then
     USAGE
+fi
+
+#check if source directory exists
+if [ ! -d $SOURCE_DIR ]
+then
+    echo -e "$R $SOURCE_DIR does not exist, Please check $N" | tee -a $LOG_FILE
+    exit 1
+fi
+
+#check if destination directory exists
+if [ ! -d $DEST_DIR ]
+then
+    echo -e "$R $DEST_DIR does not exist, Please check $N" | tee -a $LOG_FILE
+    exit 1
 fi
