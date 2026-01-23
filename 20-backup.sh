@@ -1,6 +1,11 @@
 #!/bin/bash
 
 USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+
 SOURCE_DIR=$1
 DEST_DIR=$2
 DAYS=${3:-14} #If days are provided that will be considered, otherwise default 14 days
@@ -43,8 +48,3 @@ if [ $# -lt 2 ]
 then
     USAGE
 fi
-
-
-
-
-
