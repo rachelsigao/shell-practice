@@ -66,30 +66,39 @@ then
     exit 1
 fi
 
+dnf install zip -y
+VALIDATE $? "Installing zip command"
+
 FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS) #find files older than specified days
 
-#zip only when there are files
-if [ ! -z "$FILES" ]
+#check if there are files to zip
+if [ -n "$FILES" ] 
 then
-    echo "Log files older than 14 days to zip are: $FILES" | tee -a $LOG_FILE
+    echo"Log files older than $DAYS days to zip are: $FILES" | tee -a $LOG_FILE
+
     TIMESTAMP=$(date +%F-%H-%M-%S)
-    ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip" #moving zip file to destination directory
-    find $SOURCE_DIR -name "*.log" -mtime +$DAYS | zip -@ "$ZIP_FILE" #zipping the files and 
-
-    if [ -f $ZIP_FILE ] #check if zip file is created
+    ZIP_NAME="app-logs-$TIMESTAMP.zip" 
+    
+    cd "$SOURCE_DIR" || exit 1 #change to source directory
+    echo "$FILES" | sed "s|$SOURCE_DIR/||" | zip -@ "$ZIP_NAME" #zipping the files and removing source directory path
+    
+    #check if zip file is created
+    if [ -f $ZIP_NAME ] 
     then
-        echo -e "Successfully created Zip file"
+        echo "$G Successfully created Zip file $N" | tee -a $LOG_FILE
 
-        while IFS= read -r filepath #loop to delete the files in source directory after zipping
+        while IFS= read -r filepath #delete the files in source directory after zip (zip only creates copy of the files not the files themselves.)
         do
+            rm -f "$filepath"
             echo "Deleting file: $filepath" | tee -a $LOG_FILE
-            rm -rf $filepath
-        done <<< $FILES
-        echo -e "Log files older than $DAYS are removed from source directory ... $G SUCCESS $N"
+        done <<< "$FILES"
+        
+        mv "$ZIP_NAME" "$DEST_DIR/" #move zip file to destination directory
+        echo -e "Zip file moved to destination directory is... $G SUCCESS $N"
     else
-        echo -e "Zip file creation ... $R FAILURE $N"
+        echo -e "Zip file creation is ... $R FAILURE $N"
         exit 1
     fi
 else
-    echo -e "No log files found older than 14 days ... $Y SKIPPING $N"
+    echo -e "No log files found older than $DAYS days ... $Y SKIPPING $N"
 fi
