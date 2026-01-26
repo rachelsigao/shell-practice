@@ -79,23 +79,17 @@ then
     TIMESTAMP=$(date +%F-%H-%M-%S)
     ZIP_NAME="app-logs-$TIMESTAMP.zip" 
     
-    cd "$SOURCE_DIR" || exit 1 #change to source directory
-    echo "$FILES" | sed "s|$SOURCE_DIR/||" | zip -@ "$ZIP_NAME" #zipping the files and removing source directory path
+    cd "$SOURCE_DIR" || exit 1 #change to source directory, -m = move files into zip (delete originals automatically)
+    echo "$FILES" | sed "s|$SOURCE_DIR/||" | zip -m -@ "$ZIP_NAME" #zipping the files and removing source directory path
     
     #check if zip file is created
     if [ -f $ZIP_NAME ] 
     then
         echo -e "$G Successfully created Zip file $N" | tee -a $LOG_FILE
         
-        mv "$ZIP_NAME" "$DEST_DIR/" #move zip file to destination directory
+        mv "$ZIP_NAME" "$DEST_DIR" #move zip file to destination directory
         echo -e "Moving zip file to destination directory is... $G SUCCESS $N"
 
-        while IFS= read -r filepath #delete the files in source directory after zip (zip only creates copy of the files not the files themselves.)
-        do
-            rm -f "$filepath"
-            echo "Deleting file in source directory: $filepath" | tee -a $LOG_FILE
-        done <<< "$FILES"
-        
     else
         echo -e "Zip file creation is ... $R FAILURE $N"
         exit 1
