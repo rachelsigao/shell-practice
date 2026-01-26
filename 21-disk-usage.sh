@@ -12,7 +12,6 @@ do
     if [ $USAGE -ge $DISK_THRESHOLD ]
     then
         MSG+="High Disk Usage on $PARTITION: $USAGE%<br>" #<br> represents HTML new line
-        echo "$MSG"
     fi
 done <<< $DISK_USAGE
 
