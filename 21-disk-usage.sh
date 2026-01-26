@@ -12,7 +12,8 @@ do
     
     if [ $USAGE -ge $DISK_THRESHOLD ]
     then
-        MSG+="High Disk Usage on $PARTITION: $USAGE%<br> \n" #<br> represents HTML new line
+        MSG+="High Disk Usage on $PARTITION: $USAGE%<br>" 
+        #<br> represents HTML new line, \n for SSH new line. So use anyone based on which output you want
     fi
 done <<< $DISK_USAGE
 
