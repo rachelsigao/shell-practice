@@ -74,7 +74,7 @@ FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS) #find files older than spe
 #check if there are files to zip
 if [ -n "$FILES" ] 
 then
-    echo"Log files older than $DAYS days to zip are: $FILES" | tee -a $LOG_FILE
+    echo "Log files older than $DAYS days to zip are: $FILES" | tee -a $LOG_FILE
 
     TIMESTAMP=$(date +%F-%H-%M-%S)
     ZIP_NAME="app-logs-$TIMESTAMP.zip" 
@@ -85,16 +85,17 @@ then
     #check if zip file is created
     if [ -f $ZIP_NAME ] 
     then
-        echo "$G Successfully created Zip file $N" | tee -a $LOG_FILE
+        echo -e "$G Successfully created Zip file $N" | tee -a $LOG_FILE
+        
+        mv "$ZIP_NAME" "$DEST_DIR/" #move zip file to destination directory
+        echo -e "Moving zip file to destination directory is... $G SUCCESS $N"
 
         while IFS= read -r filepath #delete the files in source directory after zip (zip only creates copy of the files not the files themselves.)
         do
             rm -f "$filepath"
-            echo "Deleting file: $filepath" | tee -a $LOG_FILE
+            echo "Deleting file in source directory: $filepath" | tee -a $LOG_FILE
         done <<< "$FILES"
         
-        mv "$ZIP_NAME" "$DEST_DIR/" #move zip file to destination directory
-        echo -e "Zip file moved to destination directory is... $G SUCCESS $N"
     else
         echo -e "Zip file creation is ... $R FAILURE $N"
         exit 1
