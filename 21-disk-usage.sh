@@ -20,15 +20,3 @@ do
         MSG+="$LINE<br>"
     fi
 done
-
-# Send email only once (final accumulated MSG)
-if [ -n "$MSG" ]
-then
-    {
-        echo "To: your_email@gmail.com"
-        echo "Subject: Disk Usage Alert"
-        echo "Content-Type: text/html"
-        echo ""
-        echo "$MSG"
-    } | msmtp your_email@gmail.com
-fi
