@@ -12,11 +12,7 @@ do
     if [ "$USAGE" -ge "$DISK_THRESHOLD" ]
     then
         LINE="High Disk Usage on $PARTITION: $USAGE%"
-
-        # Print ONLY the current line (no duplication in SSH)
         echo "$LINE"
-
-        #Accumulate message for email
         MSG+="$LINE<br>"
     fi
 done
