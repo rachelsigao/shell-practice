@@ -12,7 +12,7 @@ DAYS=${3:-14} #If days are provided that will be considered, otherwise default 1
 
 LOGS_FOLDER="/var/log/shellscript-logs" 
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+LOG_FILE="$LOGS_FOLDER/backup.log"
 
 #Validate function takes input as exit status, what command they tried to install
 VALIDATE ()
